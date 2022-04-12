@@ -4,6 +4,7 @@ from typing import List
 # Definición de atributos
 lista_libros: List[Libro] = []
 id:int = 0
+archivo_datos = open("biblioteca.txt", "w+")
 
 # Definición de métodos
 def imprimir_texto_ppal():
@@ -104,20 +105,43 @@ def continuar():
     respuesta = input()
     if respuesta == "S":
         presentar_opciones(lista_libros)
+        escribir_archivo()
     elif respuesta == "N":
         global counter
         counter = 0
+        archivo_datos.close()
         pass
     else:
         print("Responda S o N")
         continuar()
 
-# Programa ppal
+def escribir_archivo():
+    global archivo_datos
+    global lista_libros
+    for libro in lista_libros:
+        archivo_datos.write(f"{libro.id}#{libro.titulo}#{libro.autor}#{libro.editorial}#{libro.anio}# \r\n")
 
+'''def leer_archivo():
+    global lista_libros
+    global archivo_datos
+    archivo_datos.mode = "r"
+    for linea in archivo_datos:
+        linea_split = linea.split('#')
+
+        #libro = Libro()
+        print(linea_split)'''
+# Programa ppal
 counter:int = 0
+#leer_archivo()
+
 presentar_opciones(lista_libros)
+
+escribir_archivo()
+
 while counter != 0:
     continuar()
+
+
 
 
 
