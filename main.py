@@ -119,7 +119,8 @@ def continuar():
 def escribir_archivo():
     global archivo_datos
     global lista_libros
-    
+    archivo_datos.seek(0)
+    archivo_datos.truncate()
     for libro in lista_libros:
         archivo_datos.write(f"{libro.id}#{libro.titulo}#{libro.autor}#{libro.editorial}#{libro.anio} \r\n")
 
@@ -134,6 +135,12 @@ def importar_datos():
             atributos_libro_archivo = linea.split("#")
             libro_archivo = devolver_libro_archivo(atributos_libro_archivo)
             lista_libros.append(libro_archivo)
+    registrar_ultimo_id(lineas)
+
+def registrar_ultimo_id(lineas):
+    ultimo_id = int(lineas.pop().split("#")[0])
+    global id
+    id = ultimo_id
 
 def devolver_libro_archivo(atributos_libro_archivo):
     id = int(atributos_libro_archivo[0])
