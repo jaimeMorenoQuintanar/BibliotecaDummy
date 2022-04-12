@@ -16,13 +16,14 @@ def imprimir_texto_ppal():
     print("2. Borrar libro")
     print("3. Consultar libro")
     print("4. Consultar todos los libros disponibles")
+    print("5. Modificar libro")
     print("#################################")
     print("Seleccione una opción...")
     opcion_seleccionada = input()
     print("---------------------------------")
     return opcion_seleccionada
 
-def implementar_modo_insercion(lista_libros):
+def implementar_modo_insercion():
     try:
         print("MODO INSERCIÓN")
         print(" ")
@@ -58,7 +59,7 @@ def implementar_modo_borrado():
         print("Libro no disponible en la biblioteca")
     except:
         print("Error al borrar el libro")
-def implementar_modo_consulta_individual(lista_libros):
+def implementar_modo_consulta_individual():
     print("MODO CONSULTA LIBRO")
     print(" ")
     print("Inserta id...")
@@ -73,7 +74,7 @@ def implementar_modo_consulta_individual(lista_libros):
             print(f"AÑO: {libro.anio}")
             print("--------------------------")
 
-def implementar_modo_consulta_biblioteca(lista_libros):
+def implementar_modo_consulta_biblioteca():
     print("MODO CONSULTA BIBLIOTECA")
     print(" ")
 
@@ -86,16 +87,53 @@ def implementar_modo_consulta_biblioteca(lista_libros):
             print(f"AÑO: {libro.anio}")
             print("--------------------------")
 
+def implementar_modo_edicion():
+    print("MODO EDICIÓN LIBRO")
+    print(" ")
+    print("Inserta id...")
+    id = int(input())
+    for libro in lista_libros:
+        if libro.id == id:
+            print(f"Título actual: {libro.titulo}")
+            print("Inserta nuevo título... (pulsa la barra espaciadora si no quieres modificar este atributo)")
+            titulo = input()
+            if titulo:
+                libro.titulo = titulo
+
+            print(f"Autor actual: {libro.autor}")    
+            print("Inserta autor... (pulsa la barra espaciadora si no quieres modificar este atributo)")
+            autor = input()
+            if autor:
+                libro.autor = autor
+
+            print(f"Editorial actual: {libro.editorial}")
+            print("Inserta editorial... (pulsa la barra espaciadora si no quieres modificar este atributo)")
+            editorial = input()
+            if editorial:
+                libro.editorial = editorial
+            
+            print(f"Año actual: {libro.anio}")
+            print("Inserta año... (pulsa la barra espaciadora si no quieres modificar este atributo)")
+            anio = input()
+            if anio:
+                libro.anio = int(anio)
+
+
+            print(" ")
+            print("Libro modificado con éxito")
+
 def presentar_opciones(lista_libros):
     opcion_seleccionada = imprimir_texto_ppal()
     if int(opcion_seleccionada) == 1:
-        implementar_modo_insercion(lista_libros)
+        implementar_modo_insercion()
     elif int(opcion_seleccionada) == 2:
         implementar_modo_borrado()
     elif int(opcion_seleccionada) == 3:
-        implementar_modo_consulta_individual(lista_libros)
+        implementar_modo_consulta_individual()
     elif int(opcion_seleccionada) == 4:
-        implementar_modo_consulta_biblioteca(lista_libros)
+        implementar_modo_consulta_biblioteca()
+    elif int(opcion_seleccionada) == 5:
+        implementar_modo_edicion()
     else:
         print("La opción seleccionada no es válida")
     
@@ -138,9 +176,12 @@ def importar_datos():
     registrar_ultimo_id(lineas)
 
 def registrar_ultimo_id(lineas):
-    ultimo_id = int(lineas.pop().split("#")[0])
-    global id
-    id = ultimo_id
+    if not lineas:
+        pass
+    else:
+        ultimo_id = int(lineas.pop().split("#")[0])
+        global id
+        id = ultimo_id
 
 def devolver_libro_archivo(atributos_libro_archivo):
     id = int(atributos_libro_archivo[0])
