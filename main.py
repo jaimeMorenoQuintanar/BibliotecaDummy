@@ -5,7 +5,7 @@ from typing import List
 lista_libros: List[Libro] = []
 id:int = 0
 archivo_datos = open("biblioteca.txt", "w+")
-
+counter:int= 0
 # Definición de métodos
 def imprimir_texto_ppal():
     print("BIBLIOTECA MUNICIPAL ENDER")
@@ -96,6 +96,7 @@ def presentar_opciones(lista_libros):
         implementar_modo_consulta_biblioteca(lista_libros)
     else:
         print("La opción seleccionada no es válida")
+    
     global counter
     counter += 1
 
@@ -121,7 +122,7 @@ def escribir_archivo():
     for libro in lista_libros:
         archivo_datos.write(f"{libro.id}#{libro.titulo}#{libro.autor}#{libro.editorial}#{libro.anio}# \r\n")
 
-'''def leer_archivo():
+def leer_archivo():
     global lista_libros
     global archivo_datos
     archivo_datos.mode = "r"
@@ -129,10 +130,10 @@ def escribir_archivo():
         linea_split = linea.split('#')
 
         #libro = Libro()
-        print(linea_split)'''
+        print(linea_split)
 # Programa ppal
-counter:int = 0
-#leer_archivo()
+
+leer_archivo()
 
 presentar_opciones(lista_libros)
 
