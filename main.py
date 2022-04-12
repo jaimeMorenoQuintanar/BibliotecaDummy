@@ -4,8 +4,10 @@ from typing import List
 # Definición de atributos
 lista_libros: List[Libro] = []
 id:int = 0
-archivo_datos = open("biblioteca.txt", "w+")
+archivo_datos = open("biblioteca.txt", "r+")
 counter:int= 0
+SI = ["S", "s", "SÍ", "SI", "Sí", "sí", "si"]
+NO = ["N", "n", "NO", "No", "no"]
 # Definición de métodos
 def imprimir_texto_ppal():
     print("BIBLIOTECA MUNICIPAL ENDER")
@@ -104,13 +106,11 @@ def continuar():
     print("")
     print("¿Quiere continuar en la biblioteca? (S/N)")
     respuesta = input()
-    if respuesta == "S":
+    if SI.__contains__(respuesta):
         presentar_opciones(lista_libros)
-        escribir_archivo()
-    elif respuesta == "N":
+    elif NO.__contains__(respuesta):
         global counter
         counter = 0
-        archivo_datos.close()
         pass
     else:
         print("Responda S o N")
@@ -119,30 +119,41 @@ def continuar():
 def escribir_archivo():
     global archivo_datos
     global lista_libros
+    
     for libro in lista_libros:
-        archivo_datos.write(f"{libro.id}#{libro.titulo}#{libro.autor}#{libro.editorial}#{libro.anio}# \r\n")
+        archivo_datos.write(f"{libro.id}#{libro.titulo}#{libro.autor}#{libro.editorial}#{libro.anio} \r\n")
 
-def leer_archivo():
+def importar_datos():
     global lista_libros
     global archivo_datos
-    archivo_datos.mode = "r"
-    for linea in archivo_datos:
-        linea_split = linea.split('#')
+    lineas = archivo_datos.read().splitlines()
+    for linea in lineas:
+        if not linea:
+            pass
+        else:
+            atributos_libro_archivo = linea.split("#")
+            libro_archivo = devolver_libro_archivo(atributos_libro_archivo)
+            lista_libros.append(libro_archivo)
 
-        #libro = Libro()
-        print(linea_split)
+def devolver_libro_archivo(atributos_libro_archivo):
+    id = int(atributos_libro_archivo[0])
+    titulo = atributos_libro_archivo[1]
+    autor = atributos_libro_archivo[2]
+    editorial = atributos_libro_archivo[3]
+    anio = int(atributos_libro_archivo[4])
+    libro_archivo = Libro(id, titulo, autor, editorial, anio)
+    return libro_archivo
 # Programa ppal
 
-leer_archivo()
+importar_datos()
 
 presentar_opciones(lista_libros)
-
-escribir_archivo()
 
 while counter != 0:
     continuar()
 
-
+escribir_archivo()
+archivo_datos.close()
 
 
 
