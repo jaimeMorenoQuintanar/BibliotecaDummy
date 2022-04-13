@@ -202,7 +202,3 @@ while counter != 0:
 
 escribir_archivo()
 archivo_datos.close()
-
-
-
-
